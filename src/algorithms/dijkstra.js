@@ -71,6 +71,7 @@ function createAlgNode(dataNode) {
   return {
     row: dataNode.row,
     col: dataNode.col,
+    type: dataNode.type,
     previousNode: null,
     state: dataNode.state,
     distance: Infinity

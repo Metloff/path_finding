@@ -3,19 +3,32 @@
     <Header @run-algorithm="runAlgorithm"
             @create-pattern="createPattern">
     </Header>
-    <Board :grid="grid"></Board>
+
+    <table class="board">
+      <tr v-for="(row, idx) in grid" :key="idx"> 
+        <Node v-for="col in row" 
+              :key="col.id" 
+              :node="col"
+              @mouse-down="handleMouseDown"
+              @mouse-enter="handleMouseEnter"
+              @mouse-up="handleMouseUp"
+              >
+        </Node>
+      </tr>
+    </table>
   </div>
 </template>
 
 <script>
 import Header from "./components/Header"
-import Board from "./components/Board"
+import Node from "./components/Node"
+
 import {dijkstra} from './algorithms/dijkstra';
 
 export default {
   name: 'app',
   components: {
-    Board, Header
+    Node, Header
   },
 
   data() {
@@ -23,6 +36,7 @@ export default {
       grid: [],
       start: {x: 0, y: 0},
       finish: {x: 0, y: 0},
+      mouseIsPressed: false,
     }
   },
 
@@ -84,6 +98,21 @@ export default {
       }
     },
 
+    // EVENT HANDLERS
+    handleMouseDown(row, col) {
+      this.toggleCellType(row, col, "wall");
+      this.mouseIsPressed = true;
+    },
+
+    handleMouseEnter(row, col) {
+      if (!this.mouseIsPressed) return; 
+      this.toggleCellType(row, col, "wall");
+    },
+
+    handleMouseUp() {
+      this.mouseIsPressed = false;
+    },
+
     // VISUALIZE
     visualizeDijkstra() {
       const startNode = this.grid[this.start.y][this.start.x];
@@ -115,6 +144,21 @@ export default {
           this.grid[row][col].state = "shortest-path"
         }, 100 * i);
       }
+    },
+
+    // UTILS
+    toggleCellType(row, col, type) {
+      const node = this.grid[row][col];
+      if (node.type === "start") { return; }
+      if (node.type === "finish") { return; }
+
+      if (type === "wall") {
+        if (node.type === "wall") {
+          node.type = "cell";
+        } else if (node.type === "cell"){
+          node.type = "wall";
+        }
+      }
     }
   },
 
@@ -133,5 +177,11 @@ export default {
 
   body {
     margin: 0px;
+  }
+
+  .board{
+    border-collapse:collapse;
+    margin-left: 5px;
+    margin-right: 5px;
   }
 </style>

@@ -25,9 +25,6 @@ export default {
 } 
 </script>
 
-
-
-
 <style scoped>
 .board{
     border-collapse:collapse;

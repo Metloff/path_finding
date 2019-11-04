@@ -1,7 +1,12 @@
 <template>
-    <td :class="nodeClass"></td>
+  <td :class="nodeClass" 
+      @mousedown="mouseDown"
+      @mouseenter="mouseEnter"
+      @mouseup="mouseUp">
+  </td>
 </template>
 
+// TODO как использовать константы из одного компонента в другом?
 <script>
 export default {
   name: "Node",
@@ -10,6 +15,20 @@ export default {
 
   data() {
     return {
+    }
+  },
+
+  methods: {
+    mouseDown() {
+      this.$emit('mouse-down', this.node.row, this.node.col);
+    },
+
+    mouseEnter() {
+      this.$emit('mouse-enter', this.node.row, this.node.col);
+    },
+
+    mouseUp() {
+      this.$emit('mouse-up');
     }
   },
 
