@@ -1,20 +1,21 @@
 <template>
   <div id="app">
-    <button v-on:click="addToCart">Add to cart</button>
-    <button v-on:click="visualizeDijkstra">New D</button>
+    <Header @run-algorithm="runAlgorithm"
+            @create-pattern="createPattern">
+    </Header>
     <Board :grid="grid"></Board>
   </div>
 </template>
 
 <script>
+import Header from "./components/Header"
 import Board from "./components/Board"
 import {dijkstra} from './algorithms/dijkstra';
-
 
 export default {
   name: 'app',
   components: {
-    Board
+    Board, Header
   },
 
   data() {
@@ -30,6 +31,7 @@ export default {
   },
 
   methods: { 
+    // INIT
     createGrid() {
       let height = Math.floor(window.innerHeight / 28);
       let width = Math.floor(window.innerWidth / 25);
@@ -67,17 +69,28 @@ export default {
       this.grid = grid;
     },
 
-    addToCart() {
-      this.grid[0][0].state = "visited";
+    createPattern(PatternName) {
+      window.console.log(PatternName);
     },
 
+    // PROCESS
+    runAlgorithm(algorithmName) {
+      switch (algorithmName) {
+      case "dijkstra":
+        this.visualizeDijkstra();
+        break;
+      default:
+        alert( "Select algorithm" );
+      }
+    },
+
+    // VISUALIZE
     visualizeDijkstra() {
       const startNode = this.grid[this.start.y][this.start.x];
       const finishNode = this.grid[this.finish.y][this.finish.x];
       const {visitedNodesInOrder, nodesInShortestPathOrder} = dijkstra(this.grid, startNode, finishNode);
-      window.console.log(visitedNodesInOrder, nodesInShortestPathOrder);
 
-       for (let i = 0; i < visitedNodesInOrder.length; i++) {        
+      for (let i = 0; i < visitedNodesInOrder.length; i++) {        
         setTimeout(() => {
           let row = visitedNodesInOrder[i].row;
           let col = visitedNodesInOrder[i].col;
@@ -115,6 +128,10 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    margin-top: 60px;
+    /* margin-top: 60px; */
+  }
+
+  body {
+    margin: 0px;
   }
 </style>
