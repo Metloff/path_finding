@@ -1,11 +1,20 @@
 #!/usr/bin/env sh
 
+# abort on errors
+set -e
+
 # build
 npm run build
 
-# Add and push to git
-git add dist && git commit -m "Some changes"
-git subtree push --prefix dist origin gh-pages
+# navigate into the build output directory
+cd dist
 
-# https://medium.com/@Roli_Dori/deploy-vue-cli-3-project-to-github-pages-ebeda0705fbd
+git init
+git add -A
+git commit -m 'deploy'
+
+# if you are deploying to https://<USERNAME>.github.io/<REPO>
+git push -f git@github.com:Metloff/path_finding.git master:gh-pages
+
+cd -
 # https://cli.vuejs.org/ru/guide/deployment.html#github-pages
