@@ -1,7 +1,11 @@
 <template>
   <div id="app">
     <Header @run-algorithm="runAlgorithm"
-            @create-pattern="createPattern">
+            @create-pattern="createPattern"
+            @clear-board="clearBoard"
+            @clear-walls="clearWalls"
+            @clear-search-result="clearSearchResult"
+            >
     </Header>
 
     <table class="board">
@@ -98,6 +102,30 @@ export default {
       }
     },
 
+    clearBoard() {
+      this.clearGrid(function(node) {
+        node.state = "unvisited";
+
+        if (node.type === "start") { return; }
+        if (node.type === "finish") { return; }
+
+        node.type = "cell";
+      })
+    },
+
+    clearWalls() {
+      this.clearGrid(function(node) {
+        if (node.type !== "wall") { return; }        
+        node.type = "cell";
+      })
+    },
+
+    clearSearchResult() {
+      this.clearGrid(function(node) {
+        node.state = "unvisited";
+      })
+    },
+
     // EVENT HANDLERS
     handleMouseDown(row, col) {
       this.toggleCellType(row, col, "wall");
@@ -157,6 +185,14 @@ export default {
           node.type = "cell";
         } else if (node.type === "cell"){
           node.type = "wall";
+        }
+      }
+    },
+
+    clearGrid(func) {
+       for (const row of this.grid) {
+        for (const node of row) {
+          func(node);
         }
       }
     }

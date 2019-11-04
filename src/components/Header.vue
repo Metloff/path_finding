@@ -43,12 +43,12 @@
         <!-- Process buttons -->
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <button class="btn btn-outline-primary" type="button" v-if="selectedAlgorithm.title != undefined" @click="runAlgorithm(selectedAlgorithm.key)">Run {{ this.selectedAlgorithm.title }}!</button>
+            <button class="btn btn-outline-primary" type="button" v-if="selectedAlgorithm.title != undefined" @click="runAlgorithm(selectedAlgorithm.key)">Run {{ this.selectedAlgorithm.key }}!</button>
             <button class="btn btn-outline-primary" type="button" v-else disabled="true">Select algorithm</button>
           </li>
-          <li class="nav-item"><a class="nav-link"  href="#">Clear Board</a></li>
-          <li class="nav-item"><a class="nav-link"  href="#">Clear Walls</a></li>
-          <li class="nav-item"><a class="nav-link"  href="#">Clear Search Result</a></li>
+          <li class="nav-item" ><a class="nav-link" href="#" @click="clearBoard">Clear Board</a></li>
+          <li class="nav-item"><a class="nav-link"  href="#" @click="clearWalls">Clear Walls</a></li>
+          <li class="nav-item"><a class="nav-link"  href="#" @click="clearSearchResult">Clear Search Result</a></li>
         </ul>
       </div>
     </nav>
@@ -89,7 +89,19 @@ export default {
     },
 
     runAlgorithm(key) {
-       this.$emit('run-algorithm', key);
+      this.$emit('run-algorithm', key);
+    },
+
+    clearBoard() {
+      this.$emit('clear-board');
+    },
+
+    clearWalls() {
+      this.$emit('clear-walls');
+    },
+
+    clearSearchResult() {
+      this.$emit('clear-search-result');
     },
   },
 }
