@@ -18,7 +18,7 @@ export function dijkstra(grid, startNode, finishNode) {
 
     const closestNode = algGrid[closestNodeCoord.row][closestNodeCoord.col];
     // If we encounter a wall, we skip it.
-    if (closestNode.type == "Wall") continue;
+    if (closestNode.type == "wall") continue;
     // If the closest node is at a distance of infinity,
     // we must be trapped and should therefore stop.
     if (closestNode.distance === Infinity) {

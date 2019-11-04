@@ -44,18 +44,18 @@ export default {
             col,
             row,
             id: `${row}-${col}`,
-            state: "unvisited"
+            state: "unvisited",
+            type: "cell"
           }
+
           if (row === Math.floor(height / 2) && col === Math.floor(width / 4)) {
             this.start.x = col;
             this.start.y = row;
-            curCol.class = "node-start";
+            curCol.type = "start";
           } else if (row === Math.floor(height / 2) && col === Math.floor(3 * width / 4)) {
             this.finish.x = col;
             this.finish.y = row;
-            curCol.class = "node-finish";
-          } else {
-            curCol.class = "node-unvisited";
+            curCol.type = "finish";
           }
 
           currentRow.push(curCol);
@@ -68,7 +68,7 @@ export default {
     },
 
     addToCart() {
-      this.grid[0][0].class = "node-visited";
+      this.grid[0][0].state = "visited";
     },
 
     visualizeDijkstra() {
@@ -81,13 +81,13 @@ export default {
         setTimeout(() => {
           let row = visitedNodesInOrder[i].row;
           let col = visitedNodesInOrder[i].col;
-          this.grid[row][col].class = "node-visited"
-        }, 7 * i);
+          this.grid[row][col].state = "visited"
+        }, 5 * i);
 
         if (i == visitedNodesInOrder.length - 1) {
           setTimeout(() => {
             this.animateShortestPath(nodesInShortestPathOrder);
-          }, 7 * i);
+          }, 5 * i);
 
           return;
         }
@@ -99,14 +99,12 @@ export default {
         setTimeout(() => {
           let row = nodesInShortestPathOrder[i].row;
           let col = nodesInShortestPathOrder[i].col;
-          this.grid[row][col].class = "node-shortest-path"
+          this.grid[row][col].state = "shortest-path"
         }, 100 * i);
       }
     }
   },
 
-// TODO: Вынести изменения стейта в стейт машину (сделать примитивные транзакционные методы), чтобы стартовая и конечная точки не меняли свои окрасы.
-    
 }
 </script>
 

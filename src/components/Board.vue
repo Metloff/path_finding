@@ -1,27 +1,27 @@
 <template>
-    <table class="board">
-        <tr v-for="(row,  idx) in grid" :key="idx"> 
-            <Node v-for="col in row" :key="col.id" :node=col></Node>
-        </tr>
-    </table>
+  <table class="board">
+    <tr v-for="(row,  idx) in grid" :key="idx"> 
+      <Node v-for="col in row" :key="col.id" :node=col></Node>
+    </tr>
+  </table>
 </template>
 
 <script>
 import Node from "./Node"
 
 export default {
-    name: "Board",
+  name: "Board",
 
-    components: {
-        Node
-    },
+  components: {
+      Node
+  },
 
-    props: ["grid"],
-    methods: {
-    },
+  props: ["grid"],
+  methods: {
+  },
 
-    computed: {
-    }
+  computed: {
+  }
 } 
 </script>
 

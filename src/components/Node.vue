@@ -1,18 +1,36 @@
 <template>
-    <td :class="node.class"></td>
+    <td :class="nodeClass"></td>
 </template>
 
 <script>
 export default {
-    name: "Node",
+  name: "Node",
 
-    props: ["node"],
+  props: ["node"],
 
-    data() {
-        return {
-            nodeClass: "unvisited",
-        }
+  data() {
+    return {
     }
+  },
+
+  computed: {
+    nodeClass() {
+      if (this.node.type === "start" ) {
+        return "node-start"
+      }
+
+      if (this.node.type === "finish" ) {
+        return "node-finish"
+      }
+
+      if (this.node.type === "wall" ) {
+        return "node-wall"
+      }
+
+      return "node-" + this.node.state;
+    },
+
+  }
 }
 </script>
 
@@ -36,36 +54,7 @@ td{
 }
 
 .node-visited {
-  animation-name: visitedAnimation;
-  animation-duration: 1.5s;
-  animation-timing-function: ease-out;
-  animation-delay: 0;
-  animation-direction: alternate;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-play-state: running;
-}
-
-@keyframes visitedAnimation {
-  0% {
-    transform: scale(0.3);
-    background-color: rgba(0, 0, 66, 0.75);
-    border-radius: 100%;
-  }
-
-  50% {
-    background-color: rgba(17, 104, 217, 0.75);
-  }
-
-  75% {
-    transform: scale(1.2);
-    background-color: rgba(0, 217, 159, 0.75);
-  }
-
-  100% {
-    transform: scale(1);
-    background-color: rgba(0, 190, 218, 0.75);
-  }
+    background-color:rgba(0, 190, 218, 0.75);
 }
 
 .node-wall {
