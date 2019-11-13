@@ -68,13 +68,17 @@ export default {
       ],
       patterns: [
         {
-          title: "Recursive Division",
-          key: "Recursive Division"
+          title: "Vertical Recursive Division",
+          key: "Vertical Recursive Division"
         },
         {
-          title: "Simple Stair",
-          key: "Simple Stair"
+          title: "Horizontal Recursive Division",
+          key: "Horizontal Recursive Division"
         },
+        // {
+        //   title: "Simple Stair",
+        //   key: "Simple Stair"
+        // },
       ],
     }
   },

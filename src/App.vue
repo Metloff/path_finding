@@ -28,6 +28,7 @@ import Header from "./components/Header"
 import Node from "./components/Node"
 
 import {dijkstra} from './algorithms/dijkstra';
+import {recursive} from './patterns/recursive'
 
 export default {
   name: 'app',
@@ -87,10 +88,6 @@ export default {
       this.grid = grid;
     },
 
-    createPattern(PatternName) {
-      window.console.log(PatternName);
-    },
-
     // PROCESS
     runAlgorithm(algorithmName) {
       switch (algorithmName) {
@@ -99,6 +96,19 @@ export default {
         break;
       default:
         alert( "Select algorithm" );
+      }
+    },
+
+    createPattern(patternName) {
+      switch (patternName) {
+      case "Vertical Recursive Division":
+        this.visualizeRecursive("vertical");
+        break;
+      case "Horizontal Recursive Division":
+        this.visualizeRecursive("horizontal");
+        break;
+      default:
+        alert( "Select pattern" );
       }
     },
 
@@ -171,6 +181,26 @@ export default {
           let col = nodesInShortestPathOrder[i].col;
           this.grid[row][col].state = "shortest-path"
         }, 100 * i);
+      }
+    },
+
+    visualizeRecursive(orientation) {
+      const startNode = this.grid[this.start.y][this.start.x];
+      const finishNode = this.grid[this.finish.y][this.finish.x];
+      const createdWallsInOrder = recursive(this.grid, startNode, finishNode, orientation);
+
+      for (let i = 0; i < createdWallsInOrder.length; i++) {        
+        setTimeout(() => {
+          // TODO: исправить underfined в createdWallsInOrder.
+          let row = createdWallsInOrder[i].row;
+          let col = createdWallsInOrder[i].col;
+          let node = this.grid[row][col];
+
+          if (node.type === "start") { return; }
+          if (node.type === "finish") { return; }
+
+          node.state = "wall"
+        }, 5 * i);
       }
     },
 

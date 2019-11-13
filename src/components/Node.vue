@@ -73,11 +73,39 @@ td{
 }
 
 .node-visited {
-    background-color:rgba(0, 190, 218, 0.75);
+  background-color:rgba(0, 190, 218, 0.75);
 }
 
-.node-wall {
+/* .node-wall {
   background-color: rgb(12, 53, 71);
+} */
+.node-wall{
+  animation-name: wallAnimation;
+  animation-duration: 0.3s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+  border: 1px solid rgb(12, 53, 71);
+}
+
+@keyframes wallAnimation {
+  0% {
+    transform: scale(.3);
+    background-color: rgb(12, 53, 71);
+  }
+
+  50% {
+    transform: scale(1.2);
+    background-color: rgb(12, 53, 71);
+  }
+
+  100% {
+    transform: scale(1.0);
+    background-color: rgb(12, 53, 71);
+  }
 }
 
 .node-shortest-path {
