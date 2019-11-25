@@ -8,6 +8,21 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+
+          <!-- SELECT MODE -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Game Mode
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+               <a class="dropdown-item" href="#" 
+                  v-for="m in modes" 
+                  :key="m.key"
+                  @click="selectMode(m.key)">
+                  {{ m.title }}
+                </a>
+            </div>
+          </li>
           
           <!-- ALGORITHMS -->
           <li class="nav-item dropdown">
@@ -66,6 +81,7 @@ export default {
           key: "dijkstra"
         },
       ],
+
       patterns: [
         {
           title: "Vertical Recursive Division",
@@ -75,10 +91,18 @@ export default {
           title: "Horizontal Recursive Division",
           key: "Horizontal Recursive Division"
         },
-        // {
-        //   title: "Simple Stair",
-        //   key: "Simple Stair"
-        // },
+      ],
+
+      modes: [
+        {
+          title: "Simple",
+          key: "simple"
+        },
+
+        {
+          title: "With weight",
+          key: "weight"
+        }
       ],
     }
   },
@@ -90,6 +114,10 @@ export default {
 
     selectPattern(key) {
       this.$emit('create-pattern', key);
+    },
+
+    selectMode(key) {
+      this.$emit('change-mode', key);
     },
 
     runAlgorithm(key) {

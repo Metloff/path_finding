@@ -46,6 +46,14 @@ export default {
         return "node-wall"
       }
 
+      if (this.node.type === "mountain" ) {
+        return "node-mountain"
+      }
+
+      if (this.node.type === "hill" ) {
+        return "node-hill"
+      }
+
       return "node-" + this.node.state;
     },
 
@@ -122,17 +130,75 @@ td{
 @keyframes shortestPath {
   0% {
     transform: scale(0.6);
-    background-color: rgb(255, 254, 106);
+    background-color: rgb(41, 173, 71);
   }
 
   50% {
     transform: scale(1.2);
-    background-color: rgb(255, 254, 106);
+    background-color: rgb(41, 173, 71);
   }
 
   100% {
     transform: scale(1);
-    background-color: rgb(255, 254, 106);
+    background-color: rgb(41, 173, 71);
+  }
+}
+
+.node-mountain{
+  animation-name: mountainAnimation;
+  animation-duration: 0.3s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+  border: 1px solid rgb(107, 0, 0);
+}
+
+@keyframes mountainAnimation {
+  0% {
+    transform: scale(.3);
+    background-color: rgb(107, 0, 0);
+  }
+
+  50% {
+    transform: scale(1.2);
+    background-color: rgb(107, 0, 0);
+  }
+
+  100% {
+    transform: scale(1.0);
+    background-color: rgb(107, 0, 0);
+  }
+}
+
+.node-hill{
+  animation-name: hillAnimation;
+  animation-duration: 0.3s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+  border: 1px solid rgb(242, 243, 155);
+}
+
+@keyframes hillAnimation {
+  0% {
+    transform: scale(.3);
+    background-color: rgb(242, 243, 155);
+  }
+
+  50% {
+    transform: scale(1.2);
+    background-color: rgb(242, 243, 155);
+  }
+
+  100% {
+    transform: scale(1.0);
+    background-color: rgb(242, 243, 155);
   }
 }
 </style>

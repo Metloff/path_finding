@@ -7,6 +7,13 @@ export function dijkstra(grid, startNode, finishNode) {
   inQueueTransaction(algGrid, queue, startNode.row, startNode.col)
 
   for (;;) {
+     if (queue.length == 0) { 
+      return {
+        visitedNodesInOrder: visitedNodesInOrder, 
+        nodesInShortestPathOrder: getNodesInShortestPathOrder(algGrid[finishNode.row][finishNode.col]),
+      }
+    }
+
     const closestNodeCoord = queue.shift();
     // If queue is empty we must stop.
     if (closestNodeCoord == undefined) {
@@ -28,43 +35,42 @@ export function dijkstra(grid, startNode, finishNode) {
       }
     }
     
-    closestNode.state = "visited";
-    visitedNodesInOrder.push(closestNode);
-    if (compareNodes(closestNode, finishNode)) { 
-      return {
-        visitedNodesInOrder: visitedNodesInOrder, 
-        nodesInShortestPathOrder: getNodesInShortestPathOrder(closestNode),
-      }
+    if (closestNode.state != "visited") {
+      closestNode.state = "visited";
+      visitedNodesInOrder.push(closestNode);
     }
-
+    
     processUnvisitedNeighbors(closestNode, algGrid, queue);
   }
 }
 
 function processUnvisitedNeighbors(node, grid, queue) {
-  const unvisitedNeighbors = getUnvisitedNeighbors(node, grid);
+  const unvisitedNeighbors = getNeighbors(node, grid);
   for (const neighbor of unvisitedNeighbors) {
-    const newDistance = node.distance + 1;
+    const newDistance = node.distance + neighbor.weight;
+    let isChangedDistance = false;
     if (neighbor.distance > newDistance) {
-      neighbor.distance = node.distance + 1;
+      neighbor.distance = newDistance;
       neighbor.previousNode = node;
+      isChangedDistance = true;
     }
 
     // Add node to the queue if we didn't it.
-    if (neighbor.state == "unvisited") {
+    if (neighbor.state == "unvisited" || isChangedDistance) {
       inQueueTransaction(grid, queue, neighbor.row, neighbor.col)    
     }
   }
 }
 
-function getUnvisitedNeighbors(node, grid) {
+function getNeighbors(node, grid) {
   const neighbors = [];
   const {col, row} = node;
   if (row > 0) neighbors.push(grid[row - 1][col]);
   if (row < grid.length - 1) neighbors.push(grid[row + 1][col]);
   if (col > 0) neighbors.push(grid[row][col - 1]);
   if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1]);
-  return neighbors.filter(neighbor => neighbor.state != "visited");
+
+  return neighbors;
 }
 
 function createAlgNode(dataNode) {
@@ -74,7 +80,8 @@ function createAlgNode(dataNode) {
     type: dataNode.type,
     previousNode: null,
     state: dataNode.state,
-    distance: Infinity
+    distance: Infinity,
+    weight: dataNode.weight,
   }
 }
 
@@ -96,10 +103,6 @@ function initAlgGrid(grid) {
 function inQueueTransaction(algGrid, queue, row, col) {
   algGrid[row][col].state = "in_queue";
   queue.push({row: row, col: col});
-}
-
-function compareNodes(node, algNode) {
-  return node.col == algNode.col && node.row == algNode.row;
 }
 
 // Backtracks from the finishNode to find the shortest path.

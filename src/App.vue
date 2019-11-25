@@ -5,6 +5,7 @@
             @clear-board="clearBoard"
             @clear-walls="clearWalls"
             @clear-search-result="clearSearchResult"
+            @change-mode="changeMode"
             >
     </Header>
 
@@ -42,6 +43,7 @@ export default {
       start: {x: 0, y: 0},
       finish: {x: 0, y: 0},
       mouseIsPressed: false,
+      mode: 'simple',
     }
   },
 
@@ -66,7 +68,8 @@ export default {
             row,
             id: `${row}-${col}`,
             state: "unvisited",
-            type: "cell"
+            type: "cell",
+            weight: 1,
           }
 
           if (row === Math.floor(height / 2) && col === Math.floor(width / 4)) {
@@ -112,6 +115,11 @@ export default {
       }
     },
 
+    changeMode(mode) {
+      this.mode = mode;
+      this.clearBoard();
+    },
+
     clearBoard() {
       this.clearGrid(function(node) {
         node.state = "unvisited";
@@ -138,13 +146,27 @@ export default {
 
     // EVENT HANDLERS
     handleMouseDown(row, col) {
-      this.toggleCellType(row, col, "wall");
       this.mouseIsPressed = true;
+
+      if (this.mode === "simple") {
+        this.toggleCellType(row, col, "wall");
+      } 
+
+      if (this.mode === "weight") {
+        this.toggleCellType(row, col, "mountain");
+      } 
     },
 
     handleMouseEnter(row, col) {
       if (!this.mouseIsPressed) return; 
-      this.toggleCellType(row, col, "wall");
+
+      if (this.mode === "simple") {
+        this.toggleCellType(row, col, "wall");
+      } 
+      
+      if (this.mode === "weight") {
+        this.toggleCellType(row, col, "mountain");
+      }
     },
 
     handleMouseUp() {
@@ -217,6 +239,39 @@ export default {
           node.type = "wall";
         }
       }
+
+      if (type === "mountain") {    
+        this.createMountainWalls(node);
+      }
+    },
+
+    createMountainWalls(node) {
+      if (node.type === "mountain") { return; }
+
+      let row = node.row;
+      let col = node.col;
+
+      // Create mountain.
+      node.type   = "mountain";
+      node.weight = 500;
+
+      // Create hills.
+      if (row > 0)                        this.createHillCell(row - 1, col);
+      if (row < this.grid.length - 1)     this.createHillCell(row + 1, col);
+      if (col > 0)                        this.createHillCell(row, col - 1);
+      if (col < this.grid[0].length - 1)  this.createHillCell(row, col + 1);
+    },
+
+    createHillCell(row, col) {
+      const node = this.grid[row][col];
+      if (node.type === "mountain") { return; }
+
+      node.weight = 100;
+
+      if (node.type === "start") { return; }
+      if (node.type === "finish") { return; }
+
+      node.type = "hill";
     },
 
     clearGrid(func) {
