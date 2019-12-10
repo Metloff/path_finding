@@ -28,7 +28,7 @@
 import Header from "./components/Header"
 import Node from "./components/Node"
 
-import {dijkstra} from './algorithms/dijkstra';
+import {dijkstra} from './algorithms/dijkstra2';
 import {recursive} from './patterns/recursive'
 
 export default {
