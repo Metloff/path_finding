@@ -77,7 +77,7 @@
           <li><div class="cell unvisited"></div>Unvisited nodes</li>
           <li><div class="cell shortest-path"></div>Shortest-path</li>
           <li v-if="currentGameMode.key == 'simple'"><div class="cell wall"></div>Wall nodes</li>
-          <li v-if="currentGameMode.key == 'weight'"><div class="cell mountain"></div><div class="cell hill"></div>Mountain and Hills nodes</li>
+          <li v-if="currentGameMode.key == 'weight'"><div class="cell mountain"></div><div class="cell hill"></div>Mountain and Hills</li>
         </ul>
       </div>
       <div class="algDescription">
