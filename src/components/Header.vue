@@ -80,6 +80,10 @@ export default {
           title: "Dijkstra's Algorithm",
           key: "dijkstra"
         },
+        { 
+          title: "A* Algorithm",
+          key: "astar"
+        },
       ],
 
       patterns: [

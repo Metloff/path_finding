@@ -29,6 +29,7 @@ import Header from "./components/Header"
 import Node from "./components/Node"
 
 import {dijkstra} from './algorithms/dijkstra2';
+import {astar} from './algorithms/astar';
 import {recursive} from './patterns/recursive'
 
 export default {
@@ -96,6 +97,9 @@ export default {
       switch (algorithmName) {
       case "dijkstra":
         this.visualizeDijkstra();
+        break;
+      case "astar":
+        this.visualizeAstar();
         break;
       default:
         alert( "Select algorithm" );
@@ -178,6 +182,28 @@ export default {
       const startNode = this.grid[this.start.y][this.start.x];
       const finishNode = this.grid[this.finish.y][this.finish.x];
       const {visitedNodesInOrder, nodesInShortestPathOrder} = dijkstra(this.grid, startNode, finishNode);
+
+      for (let i = 0; i < visitedNodesInOrder.length; i++) {        
+        setTimeout(() => {
+          let row = visitedNodesInOrder[i].row;
+          let col = visitedNodesInOrder[i].col;
+          this.grid[row][col].state = "visited"
+        }, 5 * i);
+
+        if (i == visitedNodesInOrder.length - 1) {
+          setTimeout(() => {
+            this.animateShortestPath(nodesInShortestPathOrder);
+          }, 5 * i);
+
+          return;
+        }
+      }
+    },
+
+    visualizeAstar() {
+      const startNode = this.grid[this.start.y][this.start.x];
+      const finishNode = this.grid[this.finish.y][this.finish.x];
+      const {visitedNodesInOrder, nodesInShortestPathOrder} = astar(this.grid, startNode, finishNode);
 
       for (let i = 0; i < visitedNodesInOrder.length; i++) {        
         setTimeout(() => {
