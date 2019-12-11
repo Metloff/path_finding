@@ -69,7 +69,7 @@
     </nav>
     <div>
       <div class="gameModeDescription">
-        <ul style="display: block;">
+        <ul style="display: block; padding: 0px;">
           <li><h5><mark>{{ currentGameMode.title }}</mark>. {{ currentGameMode.description }}.</h5></li>
           <li><div class="cell start"></div>Start node</li>
           <li><div class="cell finish"></div>Finish node</li>
